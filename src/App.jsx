@@ -1,9 +1,7 @@
-import {HelloBootstrap} from "./pages/HelloBootstrap";
+import { HelloBootstrap } from "./pages/HelloBootstrap";
 
 function App() {
-    return (
-        <HelloBootstrap></HelloBootstrap>
-    )
+  return <HelloBootstrap></HelloBootstrap>;
 }
 
 export default App;
