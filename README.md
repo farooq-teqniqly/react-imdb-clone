@@ -35,6 +35,49 @@ This will create:
 - Resource group (if it doesn't exist)
 - Azure Static Web App with your specified unique name
 
+## Manual App Deployment
+
+After creating the infrastructure, you can deploy your app manually using PowerShell:
+
+### Manual App Deployment Prerequisites
+
+- Azure CLI logged in (`az login`)
+- Static Web App already created (via Bicep or portal)
+- Node.js and npm installed
+
+### Deploy Using PowerShell Script
+
+```powershell
+# Run the deployment script with your parameters
+.\deploy-app.ps1 -ResourceGroupName "your-resource-group" -StaticWebAppName "your-unique-app-name"
+```
+
+The script will:
+
+1. Build your React application
+2. Retrieve the deployment token from Azure
+3. Create a deployment package
+4. Upload it to your Static Web App
+5. Display the live URL upon success
+
+### Manual Deployment Steps
+
+If you prefer to do it step-by-step:
+
+```powershell
+# 1. Build the app
+npm run build
+
+# 2. Get deployment token
+$token = az staticwebapp secrets list --name "your-app-name" --resource-group "your-rg" --query "properties.apiKey" -o tsv
+
+# 3. Create zip
+Compress-Archive -Path "dist/*" -DestinationPath "dist.zip" -Force
+
+# 4. Deploy
+Invoke-WebRequest -Uri "https://$token@your-app-name.scm.azurewebsites.net/api/zipdeploy" -Method POST -InFile "dist.zip" -ContentType "application/zip"
+```
+
 ## GitHub Actions Setup
 
 ### Required Secrets
