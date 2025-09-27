@@ -11,21 +11,7 @@ resource staticWebApp 'Microsoft.Web/staticSites@2022-09-01' = {
     name: 'Free'
     tier: 'Free'
   }
-  properties: {
-    repositoryUrl: ''
-    branch: 'main'
-    buildProperties: {
-      appLocation: '/'
-      apiLocation: ''
-      outputLocation: '/dist'
-      appBuildCommand: 'npm run build'
-      apiBuildCommand: ''
-      skipAppBuild: false
-    }
-    templateProperties: {
-      isGitHubActionEnabled: true
-    }
-  }
+  properties: {}
 }
 
 output staticWebAppId string = staticWebApp.id
