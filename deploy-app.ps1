@@ -45,7 +45,7 @@ $uri = "https://$token@$StaticWebAppName.scm.azurewebsites.net/api/zipdeploy"
 
 try {
     $response = Invoke-WebRequest -Uri $uri -Method POST -InFile $zipPath -ContentType "application/zip" -TimeoutSec 300
-    if ($response.StatusCode -eq 200) {
+    if ($response.StatusCode -in @(200, 202)) {
         Write-Host "Deployment successful!" -ForegroundColor Green
 
         # Get the app URL
