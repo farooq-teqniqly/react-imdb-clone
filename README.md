@@ -20,20 +20,20 @@ az login
 
 ### 2. Deploy Bicep Template
 
-Replace `myResourceGroup` with your desired resource group name:
+Replace `myResourceGroup` with your desired resource group name and `myUniqueAppName` with a globally unique Static Web App name:
 
 ```powershell
 az deployment sub create `
   --name "swa-deployment-$(Get-Date -Format 'yyyyMMddHHmmss')" `
   --location westus2 `
   --template-file infra/main.bicep `
-  --parameters resourceGroupName=myResourceGroup
+  --parameters resourceGroupName=myResourceGroup staticWebAppName=myUniqueAppName
 ```
 
 This will create:
 
 - Resource group (if it doesn't exist)
-- Azure Static Web App named 'imdb-clone'
+- Azure Static Web App with your specified unique name
 
 ## GitHub Actions Setup
 
@@ -58,6 +58,12 @@ Copy the entire JSON output and paste it as the secret value for `AZURE_CREDENTI
 #### 2. RESOURCE_GROUP_NAME
 
 Set this to the name of the resource group you want to use (e.g., `imdb-clone-rg`).
+
+#### 3. STATIC_WEB_APP_NAME
+
+Choose a globally unique name for your Static Web App (e.g., `my-imdb-clone-12345`). Static Web App names must be unique across all Azure customers worldwide. Use a combination of your project name, a random number, or your username to ensure uniqueness.
+
+**Important:** Do not use generic names like `imdb-clone` as they are likely already taken. Check availability by attempting to create the resource or use a unique identifier.
 
 ### Workflow Triggers
 

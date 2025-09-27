@@ -27,13 +27,13 @@ jobs:
           --parameters \
             resourceGroupName=${{ secrets.RESOURCE_GROUP_NAME }} \
             location=westus2 \
-            staticWebAppName=${{ vars.STATIC_WEB_APP_NAME }}
+            staticWebAppName=${{ secrets.STATIC_WEB_APP_NAME }}
 
     - name: Get Static Web App deployment token
       id: get-token
       run: |
         token=$(az staticwebapp secrets list \
-          --name "${{ vars.STATIC_WEB_APP_NAME }}" \
+          --name "${{ secrets.STATIC_WEB_APP_NAME }}" \
           --resource-group ${{ secrets.RESOURCE_GROUP_NAME }} \
           --query "properties.apiKey" \
           -o tsv)
