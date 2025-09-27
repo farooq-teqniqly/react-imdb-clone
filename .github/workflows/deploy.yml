@@ -34,7 +34,9 @@ jobs:
           --resource-group ${{ secrets.RESOURCE_GROUP_NAME }} \
           --query "properties.apiKey" \
           -o tsv)
-        echo "::set-output name=token::$token"
+        {
+          echo "token=$token"
+        } >> "$GITHUB_OUTPUT"
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
