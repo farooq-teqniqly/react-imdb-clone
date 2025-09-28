@@ -7,6 +7,7 @@ function App() {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [limit, setLimit] = useState(10);
 
   useEffect(() => {
     const fetchCoins = async () => {
@@ -63,7 +64,30 @@ function App() {
     <div>
       <Container className="my-5 mx-5">
         <Row className="mb-5">
-          <h1>🚀 Crypto Dash</h1>
+          <Col md={9}>
+            <h1>🚀 Crypto Dash</h1>
+          </Col>
+          <Col
+            md={3}
+            className="d-flex align-items-center justify-content-end gap-2"
+          >
+            <label htmlFor="limit" className="mb-0">
+              Show:
+            </label>
+            <select
+              id="limit"
+              className="form-select"
+              style={{ width: "auto" }}
+              value={limit}
+              onChange={(e) => setLimit(Number(e.target.value))}
+            >
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="30">30</option>
+              <option value="40">40</option>
+              <option value="50">50</option>
+            </select>
+          </Col>
         </Row>
 
         {loading && <p>Loading...</p>}
