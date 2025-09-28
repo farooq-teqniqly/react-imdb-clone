@@ -73,7 +73,7 @@ function App() {
                     </div>
                   </Card.Header>
                   <Card.Body>
-                    <Card.Text>
+                    <div>
                       <p>
                         <strong>Price:</strong> $
                         {coin.current_price.toFixed(2).toLocaleString()}{" "}
@@ -85,7 +85,7 @@ function App() {
                         <strong>Market Cap:</strong> $
                         {coin.market_cap.toLocaleString()}
                       </p>
-                    </Card.Text>
+                    </div>
                   </Card.Body>
                 </Card>
               </Col>
