@@ -73,7 +73,7 @@ function App() {
                     <Card.Text>
                       <p>
                         <strong>Price:</strong> $
-                        {coin.current_price.toLocaleString()}{" "}
+                        {coin.current_price.toFixed(2).toLocaleString()}{" "}
                         <small className={getPercentChangeClass(coin)}>
                           ({coin.price_change_percentage_24h.toFixed(2)}%)
                         </small>
