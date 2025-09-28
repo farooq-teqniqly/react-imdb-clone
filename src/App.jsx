@@ -72,12 +72,16 @@ function App() {
                   <Card.Body>
                     <Card.Text>
                       <p>
-                        Price: ${coin.current_price.toLocaleString()}{" "}
+                        <strong>Price:</strong> $
+                        {coin.current_price.toLocaleString()}{" "}
                         <small className={getPercentChangeClass(coin)}>
                           ({coin.price_change_percentage_24h.toFixed(2)}%)
                         </small>
                       </p>
-                      <p>Market Cap: ${coin.market_cap.toLocaleString()}</p>
+                      <p>
+                        <strong>Market Cap:</strong> $
+                        {coin.market_cap.toLocaleString()}
+                      </p>
                     </Card.Text>
                   </Card.Body>
                 </Card>
