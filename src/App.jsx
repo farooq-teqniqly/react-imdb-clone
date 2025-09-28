@@ -17,26 +17,24 @@ function App() {
     const API_URL = `${import.meta.env.VITE_API_BASE_URL}?vs_currency=usd&order=${sortBy}&per_page=${limit}&page=1&sparkline=false&x_cg_demo_api_key=${import.meta.env.VITE_API_KEY}`;
 
     const fetchCoins = async () => {
+      setLoading(true);
+      setError(null);
       try {
         const res = await fetch(API_URL);
-
         if (!res.ok) {
-          const error = `Failed to fetch data: ${res.status} ${res.statusText}`;
-          setError(error);
-          return;
+          throw new Error(`Failed to fetch data: ${res.status} ${res.statusText}`);
         }
-
         const data = await res.json();
         setCoins(data);
       } catch (error) {
-        setError(error);
+        setError(error instanceof Error ? error.message : String(error));
       } finally {
         setLoading(false);
       }
     };
 
     fetchCoins();
-  }, [limit]);
+  }, [limit, sortBy]);
 
   const filteredCoins = coins
     .filter((coin) => {
