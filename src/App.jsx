@@ -76,7 +76,10 @@ function App() {
                     <div>
                       <p>
                         <strong>Price:</strong> $
-                        {coin.current_price.toFixed(2).toLocaleString()}{" "}
+                        {coin.current_price.toLocaleString("en-US", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}{" "}
                         <small className={getPercentChangeClass(coin)}>
                           ({coin.price_change_percentage_24h.toFixed(2)}%)
                         </small>
