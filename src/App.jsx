@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container, Col, Row, Card, Image } from "react-bootstrap";
 import { LimitSelector } from "./components/LimitSelector/LimitSelector";
+import { CoinCard } from "./components/CoinCard/CoinCard";
 
 function App() {
   const [coins, setCoins] = useState([]);
@@ -36,31 +37,6 @@ function App() {
     fetchCoins();
   }, [limit]);
 
-  const getPercentChangeClass = (coin) => {
-    return coin.price_change_percentage_24h.toFixed(2) < 0.0
-      ? "text-danger"
-      : "text-success";
-  };
-
-  const getPercentChangeDisplay = (coin) => {
-    const percentChange = coin.price_change_percentage_24h.toFixed(2);
-
-    if (percentChange === "0.00") {
-      return <small className="text-muted">(no change)</small>;
-    }
-
-    return (
-      <small className={getPercentChangeClass(coin)}>({percentChange}%)</small>
-    );
-  };
-
-  const getCurrentPrice = (coin) => {
-    return coin.current_price.toLocaleString("en-US", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-  };
-
   return (
     <div>
       <Container className="my-5 mx-5">
@@ -80,43 +56,13 @@ function App() {
         </Row>
 
         {loading && <p>Loading...</p>}
-        {error && <div>{error}</div>}
+        {error && <div className="text-danger">{error}</div>}
 
         {!loading && !error && (
           <Row>
             {coins.map((coin) => (
               <Col key={coin.id} md={3} className="mb-5">
-                <Card>
-                  <Card.Header className="d-flex align-items-center">
-                    <Image
-                      src={coin.image}
-                      alt={coin.name}
-                      style={{
-                        width: "32px",
-                        height: "32px",
-                        marginRight: "10px",
-                      }}
-                    />
-                    <div>
-                      <div className="fw-bold">{coin.name}</div>
-                      <div className="fw-lighter text-uppercase small">
-                        ({coin.symbol})
-                      </div>
-                    </div>
-                  </Card.Header>
-                  <Card.Body>
-                    <div>
-                      <p>
-                        <strong>Price:</strong> ${getCurrentPrice(coin)}{" "}
-                        {getPercentChangeDisplay(coin)}
-                      </p>
-                      <p>
-                        <strong>Market Cap:</strong> $
-                        {coin.market_cap.toLocaleString()}
-                      </p>
-                    </div>
-                  </Card.Body>
-                </Card>
+                <CoinCard coin={coin}></CoinCard>
               </Col>
             ))}
           </Row>
