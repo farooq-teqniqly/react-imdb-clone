@@ -42,8 +42,11 @@ function App() {
 
   return (
     <div>
-      <h1>🚀 Crypto Dash</h1>
-      <Container className="my-5 mx-0">
+      <Container className="my-5 mx-5">
+        <Row className="mb-5">
+          <h1>🚀 Crypto Dash</h1>
+        </Row>
+
         {loading && <p>Loading...</p>}
         {error && <div>{error}</div>}
 
