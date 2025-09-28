@@ -35,9 +35,28 @@ function App() {
   }, []);
 
   const getPercentChangeClass = (coin) => {
-    return coin.price_change_percentage_24h.toFixed(2) < 0
+    return coin.price_change_percentage_24h.toFixed(2) < 0.0
       ? "text-danger"
       : "text-success";
+  };
+
+  const getPercentChangeDisplay = (coin) => {
+    const percentChange = coin.price_change_percentage_24h.toFixed(2);
+
+    if (percentChange === "0.00") {
+      return <small className="text-muted">(no change)</small>;
+    }
+
+    return (
+      <small className={getPercentChangeClass(coin)}>({percentChange}%)</small>
+    );
+  };
+
+  const getCurrentPrice = (coin) => {
+    return coin.current_price.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
   };
 
   return (
@@ -75,14 +94,8 @@ function App() {
                   <Card.Body>
                     <div>
                       <p>
-                        <strong>Price:</strong> $
-                        {coin.current_price.toLocaleString("en-US", {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })}{" "}
-                        <small className={getPercentChangeClass(coin)}>
-                          ({coin.price_change_percentage_24h.toFixed(2)}%)
-                        </small>
+                        <strong>Price:</strong> ${getCurrentPrice(coin)}{" "}
+                        {getPercentChangeDisplay(coin)}
                       </p>
                       <p>
                         <strong>Market Cap:</strong> $
