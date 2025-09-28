@@ -77,27 +77,15 @@ function App() {
         <Row className="mb-3">
           <h1>🚀 Crypto Dash</h1>
         </Row>
-        <Row className="mb-3">
+        <Row className="mb-4 align-items-end">
           <Col md={5}>
-            <FilterInput
-              filter={filter}
-              onFilterChanged={setFilter}
-            ></FilterInput>
+            <FilterInput filter={filter} onFilterChanged={setFilter} />
           </Col>
           <Col md={4}>
-            <SortSelector
-              sortBy={sortBy}
-              onSortChanged={setSortBy}
-            ></SortSelector>
+            <SortSelector sortBy={sortBy} onSortChanged={setSortBy} />
           </Col>
-          <Col
-            md={3}
-            className="d-flex align-items-center justify-content-end gap-2"
-          >
-            <LimitSelector
-              limit={limit}
-              onLimitChanged={setLimit}
-            ></LimitSelector>
+          <Col md={3}>
+            <LimitSelector limit={limit} onLimitChanged={setLimit} />
           </Col>
         </Row>
 

@@ -1,13 +1,13 @@
 export const LimitSelector = ({ limit = 10, onLimitChanged }) => {
   return (
-    <>
-      <label htmlFor="limit" className="mb-0">
+    <div className="mb-2 d-flex align-items-center justify-content-end gap-2">
+      <label htmlFor="limit" className="form-label mb-0">
         Show:
       </label>
       <select
         id="limit"
         className="form-select"
-        style={{ width: "auto" }}
+        style={{ width: "auto", minWidth: "80px" }}
         value={limit}
         onChange={(e) => onLimitChanged(Number(e.target.value))}
       >
@@ -17,6 +17,6 @@ export const LimitSelector = ({ limit = 10, onLimitChanged }) => {
         <option value="40">40</option>
         <option value="50">50</option>
       </select>
-    </>
+    </div>
   );
 };

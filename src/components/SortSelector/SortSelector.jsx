@@ -1,9 +1,13 @@
 export const SortSelector = ({ sortBy, onSortChanged }) => {
   return (
-    <div>
-      <label htmlFor="sort">Sort By:</label>
+    <div className="mb-2">
+      <label htmlFor="sort" className="form-label mb-2">
+        Sort By:
+      </label>
       <select
         id="sort"
+        className="form-select"
+        style={{ maxWidth: "280px" }}
         value={sortBy}
         onChange={(e) => onSortChanged(e.target.value)}
       >
