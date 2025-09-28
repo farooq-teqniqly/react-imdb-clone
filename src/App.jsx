@@ -22,16 +22,13 @@ function App() {
 
         if (!res.ok) {
           const error = `Failed to fetch data: ${res.status} ${res.statusText}`;
-          console.error(error);
           setError(error);
           return;
         }
 
         const data = await res.json();
-        console.log(data);
         setCoins(data);
       } catch (error) {
-        console.error(error);
         setError(error);
       } finally {
         setLoading(false);
