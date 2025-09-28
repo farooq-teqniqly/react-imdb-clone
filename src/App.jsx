@@ -52,10 +52,22 @@ function App() {
             {coins.map((coin) => (
               <Col md={3} className="mb-5">
                 <Card>
-                  <Card.Header>
-                    <Image src={coin.image} alt={coin.name} thumbnail />
-                    {coin.name}{" "}
-                    <p className="fw-lighter text-uppercase">({coin.symbol})</p>
+                  <Card.Header className="d-flex align-items-center">
+                    <Image
+                      src={coin.image}
+                      alt={coin.name}
+                      style={{
+                        width: "32px",
+                        height: "32px",
+                        marginRight: "10px",
+                      }}
+                    />
+                    <div>
+                      <div className="fw-bold">{coin.name}</div>
+                      <div className="fw-lighter text-uppercase small">
+                        ({coin.symbol})
+                      </div>
+                    </div>
                   </Card.Header>
                   <Card.Body>
                     <Card.Text>
