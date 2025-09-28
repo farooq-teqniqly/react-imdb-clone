@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { Container, Col, Row, Card, Image } from "react-bootstrap";
 
-const API_URL = `${import.meta.env.VITE_API_BASE_URL}&x_cg_demo_api_key=${import.meta.env.VITE_API_KEY}`;
-
 function App() {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,6 +8,8 @@ function App() {
   const [limit, setLimit] = useState(10);
 
   useEffect(() => {
+    const API_URL = `${import.meta.env.VITE_API_BASE_URL}?vs_currency=usd&order=market_cap_desc&per_page=${limit}&page=1&sparkline=false&x_cg_demo_api_key=${import.meta.env.VITE_API_KEY}`;
+
     const fetchCoins = async () => {
       try {
         const res = await fetch(API_URL);
@@ -33,7 +33,7 @@ function App() {
     };
 
     fetchCoins();
-  }, []);
+  }, [limit]);
 
   const getPercentChangeClass = (coin) => {
     return coin.price_change_percentage_24h.toFixed(2) < 0.0
