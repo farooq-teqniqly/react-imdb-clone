@@ -35,7 +35,7 @@ function App() {
   }, []);
 
   const getPercentChangeClass = (coin) => {
-    return coin.price_change_percentage_24h < 0
+    return coin.price_change_percentage_24h.toFixed(2) < 0
       ? "text-danger"
       : "text-success";
   };
@@ -53,7 +53,7 @@ function App() {
         {!loading && !error && (
           <Row>
             {coins.map((coin) => (
-              <Col md={3} className="mb-5">
+              <Col key={coin.id} md={3} className="mb-5">
                 <Card>
                   <Card.Header className="d-flex align-items-center">
                     <Image
