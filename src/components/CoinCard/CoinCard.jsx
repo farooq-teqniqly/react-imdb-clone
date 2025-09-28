@@ -1,4 +1,4 @@
-import { Card, Col, Image, Row } from "react-bootstrap";
+import { Card, Image } from "react-bootstrap";
 
 export const CoinCard = ({ coin }) => {
   {

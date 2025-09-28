@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Col, Row, Card, Image } from "react-bootstrap";
+import { Container, Col, Row } from "react-bootstrap";
 import { LimitSelector } from "./components/LimitSelector/LimitSelector";
 import { CoinCard } from "./components/CoinCard/CoinCard";
 
