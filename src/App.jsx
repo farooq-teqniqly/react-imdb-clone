@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Container, Col, Row, Card, Image } from "react-bootstrap";
+import { LimitSelector } from "./components/LimitSelector/LimitSelector";
 
 function App() {
   const [coins, setCoins] = useState([]);
@@ -71,22 +72,10 @@ function App() {
             md={3}
             className="d-flex align-items-center justify-content-end gap-2"
           >
-            <label htmlFor="limit" className="mb-0">
-              Show:
-            </label>
-            <select
-              id="limit"
-              className="form-select"
-              style={{ width: "auto" }}
-              value={limit}
-              onChange={(e) => setLimit(Number(e.target.value))}
-            >
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="30">30</option>
-              <option value="40">40</option>
-              <option value="50">50</option>
-            </select>
+            <LimitSelector
+              limit={limit}
+              onLimitChanged={setLimit}
+            ></LimitSelector>
           </Col>
         </Row>
 
