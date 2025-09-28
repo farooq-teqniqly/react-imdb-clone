@@ -75,11 +75,15 @@ function App() {
 
         {!loading && !error && (
           <Row>
-            {filteredCoins.map((coin) => (
-              <Col key={coin.id} md={3} className="mb-5">
-                <CoinCard coin={coin}></CoinCard>
-              </Col>
-            ))}
+            {filteredCoins.length > 0 ? (
+              filteredCoins.map((coin) => (
+                <Col key={coin.id} md={3} className="mb-5">
+                  <CoinCard coin={coin}></CoinCard>
+                </Col>
+              ))
+            ) : (
+              <p className="text-danger">No matching coins.</p>
+            )}
           </Row>
         )}
       </Container>
