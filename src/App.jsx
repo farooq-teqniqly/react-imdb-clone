@@ -1,9 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
 import { Container, Col, Row } from "react-bootstrap";
-import { LimitSelector } from "./components/LimitSelector/LimitSelector";
-import { CoinCard } from "./components/CoinCard/CoinCard";
-import { FilterInput } from "./components/FilterInput/FilterInput";
-import { SortSelector } from "./components/SortSelector/SortSelector";
+
+// Lazy load non-critical components to improve initial bundle size
+const LimitSelector = lazy(() =>
+  import("./components/LimitSelector/LimitSelector").then((module) => ({
+    default: module.LimitSelector,
+  }))
+);
+const CoinCard = lazy(() =>
+  import("./components/CoinCard/CoinCard").then((module) => ({
+    default: module.CoinCard,
+  }))
+);
+const FilterInput = lazy(() =>
+  import("./components/FilterInput/FilterInput").then((module) => ({
+    default: module.FilterInput,
+  }))
+);
+const SortSelector = lazy(() =>
+  import("./components/SortSelector/SortSelector").then((module) => ({
+    default: module.SortSelector,
+  }))
+);
 
 function App() {
   const [coins, setCoins] = useState([]);
@@ -68,33 +86,38 @@ function App() {
         <Row className="mb-3">
           <h1>🚀 Crypto Dash</h1>
         </Row>
-        <Row className="mb-4 align-items-end">
-          <Col md={5}>
-            <FilterInput filter={filter} onFilterChanged={setFilter} />
-          </Col>
-          <Col md={4}>
-            <SortSelector sortBy={sortBy} onSortChanged={setSortBy} />
-          </Col>
-          <Col md={3}>
-            <LimitSelector limit={limit} onLimitChanged={setLimit} />
-          </Col>
-        </Row>
+
+        <Suspense fallback={<div>Loading controls...</div>}>
+          <Row className="mb-4 align-items-end">
+            <Col md={5}>
+              <FilterInput filter={filter} onFilterChanged={setFilter} />
+            </Col>
+            <Col md={4}>
+              <SortSelector sortBy={sortBy} onSortChanged={setSortBy} />
+            </Col>
+            <Col md={3}>
+              <LimitSelector limit={limit} onLimitChanged={setLimit} />
+            </Col>
+          </Row>
+        </Suspense>
 
         {loading && <p>Loading...</p>}
         {error && <div className="text-danger">{error}</div>}
 
         {!loading && !error && (
-          <Row>
-            {filteredCoins.length > 0 ? (
-              filteredCoins.map((coin) => (
-                <Col key={coin.id} md={3} className="mb-5">
-                  <CoinCard coin={coin}></CoinCard>
-                </Col>
-              ))
-            ) : (
-              <p className="text-danger">No matching coins.</p>
-            )}
-          </Row>
+          <Suspense fallback={<div>Loading coins...</div>}>
+            <Row>
+              {filteredCoins.length > 0 ? (
+                filteredCoins.map((coin) => (
+                  <Col key={coin.id} md={3} className="mb-5">
+                    <CoinCard coin={coin}></CoinCard>
+                  </Col>
+                ))
+              ) : (
+                <p className="text-danger">No matching coins.</p>
+              )}
+            </Row>
+          </Suspense>
         )}
       </Container>
     </div>
