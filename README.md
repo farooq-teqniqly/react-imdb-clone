@@ -108,6 +108,25 @@ Choose a globally unique name for your Static Web App (e.g., `my-imdb-clone-1234
 
 **Important:** Do not use generic names like `imdb-clone` as they are likely already taken. Check availability by attempting to create the resource or use a unique identifier.
 
+#### 4. VITE_API_BASE_URL
+
+Set this to the CoinGecko API base URL:
+
+```
+https://api.coingecko.com/api/v3/coins/markets
+```
+
+#### 5. VITE_API_KEY
+
+Set this to your CoinGecko API key. Get your API key from:
+
+1. Visit [CoinGecko API](https://www.coingecko.com/en/api)
+2. Sign up for a free account
+3. Generate an API key from your dashboard
+4. Copy the API key and paste it as the secret value
+
+**Note:** These environment variables are needed during the build process so Vite can embed them into your application bundle.
+
 ### Workflow Triggers
 
 The deployment workflow runs automatically on:
@@ -116,6 +135,24 @@ The deployment workflow runs automatically on:
 - Manual trigger via GitHub Actions UI
 
 ## Local Development
+
+### Environment Variables
+
+This project requires environment variables for the CoinGecko API. Create a `.env` file in the root directory:
+
+```bash
+VITE_API_BASE_URL=https://api.coingecko.com/api/v3/coins/markets
+VITE_API_KEY=your-coingecko-api-key
+```
+
+**Getting a CoinGecko API Key:**
+
+1. Visit [CoinGecko API](https://www.coingecko.com/en/api)
+2. Sign up for a free account
+3. Generate an API key from your dashboard
+4. Replace `your-coingecko-api-key` with your actual API key
+
+### Running the Application
 
 ```bash
 npm install
