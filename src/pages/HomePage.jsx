@@ -1,5 +1,6 @@
 // Lazy load non-critical components to improve initial bundle size
 import { lazy, Suspense } from "react";
+import { Link } from "react-router";
 import { Col, Container, Row } from "react-bootstrap";
 
 const LimitSelector = lazy(() =>
@@ -62,7 +63,12 @@ export const HomePage = ({
     <div>
       <Container className="my-5 mx-5">
         <Row className="mb-3">
-          <h1>🚀 Crypto Dash</h1>
+          <Col md={4}>
+            <h1>🚀 Crypto Dash</h1>
+          </Col>
+          <Col md={4}>
+            <Link to="/about">About</Link>
+          </Col>
         </Row>
 
         <Suspense fallback={<div>Loading controls...</div>}>
