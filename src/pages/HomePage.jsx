@@ -1,7 +1,7 @@
 // Lazy load non-critical components to improve initial bundle size
 import { lazy, Suspense } from "react";
 import { Link } from "react-router";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row, Form } from "react-bootstrap";
 
 const LimitSelector = lazy(() =>
   import("../components/LimitSelector/LimitSelector").then((module) => ({
@@ -34,6 +34,8 @@ export const HomePage = ({
   setLimit,
   loading,
   error,
+  autoRefresh,
+  setAutoRefresh,
 }) => {
   const filteredCoins = coins
     .filter((coin) => {
@@ -73,14 +75,26 @@ export const HomePage = ({
 
         <Suspense fallback={<div>Loading controls...</div>}>
           <Row className="mb-4 align-items-end">
-            <Col md={5}>
+            <Col md={3}>
               <FilterInput filter={filter} onFilterChanged={setFilter} />
             </Col>
-            <Col md={4}>
+            <Col md={3}>
               <SortSelector sortBy={sortBy} onSortChanged={setSortBy} />
             </Col>
             <Col md={3}>
               <LimitSelector limit={limit} onLimitChanged={setLimit} />
+            </Col>
+            <Col md={3}>
+              <Form.Group className="mb-3">
+                <Form.Label>Auto-refresh</Form.Label>
+                <Form.Check
+                  type="switch"
+                  id="auto-refresh-switch"
+                  label="Every 30s"
+                  checked={autoRefresh}
+                  onChange={(e) => setAutoRefresh(e.target.checked)}
+                />
+              </Form.Group>
             </Col>
           </Row>
         </Suspense>
