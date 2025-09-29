@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router";
 import { HomePage } from "./pages/HomePage";
 import { AboutPage } from "./pages/AboutPage";
+import { NotFoundPage } from "./pages/NotFoundPage";
 
 function App() {
   const [coins, setCoins] = useState([]);
@@ -55,6 +56,7 @@ function App() {
         }
       ></Route>
       <Route path="/about" element={<AboutPage></AboutPage>}></Route>
+      <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>
     </Routes>
   );
 }
