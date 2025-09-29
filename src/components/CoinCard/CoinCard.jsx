@@ -28,11 +28,11 @@ export const CoinCard = ({ coin }) => {
         <Card.Body>
           <div>
             <p>
-              <strong>Price:</strong> ${getCurrentPrice(coin)}{" "}
+              <strong>Price:</strong> {getCurrentPrice(coin)}{" "}
               {getPercentChangeDisplay(coin)}
             </p>
             <p>
-              <strong>Market Cap:</strong> ${coin.market_cap.toLocaleString()}
+              <strong>Market Cap:</strong> ${coin.market_cap?.toLocaleString()}
             </p>
           </div>
         </Card.Body>
@@ -44,7 +44,11 @@ export const CoinCard = ({ coin }) => {
 const getPercentChangeDisplay = (coin) => {
   const rawChange = coin?.price_change_percentage_24h;
 
-  if (typeof rawChange !== "number" || !Number.isFinite(rawChange)) {
+  if (
+    !rawChange ||
+    typeof rawChange !== "number" ||
+    !Number.isFinite(rawChange)
+  ) {
     return <small className="text-muted">(change unavailable)</small>;
   }
 
@@ -62,10 +66,14 @@ const getPercentChangeDisplay = (coin) => {
 };
 
 const getCurrentPrice = (coin) => {
-  return coin.current_price.toLocaleString("en-US", {
+  if (!coin.current_price) {
+    return <small className="text-muted">(price unavailable)</small>;
+  }
+
+  return `$${coin.current_price.toLocaleString("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  });
+  })}`;
 };
 
 const getPercentChangeClass = (rawChange) => {
