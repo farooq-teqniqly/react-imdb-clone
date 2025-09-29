@@ -16,10 +16,11 @@ export const CoinCard = ({ coin }) => {
               width: "32px",
               height: "32px",
               marginRight: "10px",
+              flexShrink: 0,
             }}
           />
-          <div>
-            <div className="fw-bold">{coin.name}</div>
+          <div className="flex-grow-1" style={{ minWidth: 0 }}>
+            <div className="fw-bold text-break">{coin.name}</div>
             <div className="fw-lighter text-uppercase small">
               ({coin.symbol})
             </div>
