@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router";
 import { HomePage } from "./pages/HomePage";
 import { AboutPage } from "./pages/AboutPage";
 import { NotFoundPage } from "./pages/NotFoundPage";
+import { CoinDetailsPage } from "./pages/CoinDetailsPage";
 
 function App() {
   const [coins, setCoins] = useState([]);
@@ -55,7 +56,14 @@ function App() {
           ></HomePage>
         }
       ></Route>
+
       <Route path="/about" element={<AboutPage></AboutPage>}></Route>
+
+      <Route
+        path="/coins/:id"
+        element={<CoinDetailsPage></CoinDetailsPage>}
+      ></Route>
+
       <Route path="*" element={<NotFoundPage></NotFoundPage>}></Route>
     </Routes>
   );

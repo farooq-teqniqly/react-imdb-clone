@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { Card, Image } from "react-bootstrap";
 
 export const CoinCard = ({ coin }) => {
@@ -6,7 +7,7 @@ export const CoinCard = ({ coin }) => {
   }
 
   return (
-    <>
+    <Link to={`/coins/${coin.id}`}>
       <Card>
         <Card.Header className="d-flex align-items-center">
           <Image
@@ -38,7 +39,7 @@ export const CoinCard = ({ coin }) => {
           </div>
         </Card.Body>
       </Card>
-    </>
+    </Link>
   );
 };
 
