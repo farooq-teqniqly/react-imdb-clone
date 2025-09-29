@@ -42,6 +42,12 @@ export const CoinCard = ({ coin }) => {
 };
 
 const getPercentChangeDisplay = (coin) => {
+  const rawChange = coin?.price_change_percentage_24h;
+
+  if (typeof rawChange !== "number" || !Number.isFinite(rawChange)) {
+    return <small className="text-muted">(change unavailable)</small>;
+  }
+
   const percentChange = coin.price_change_percentage_24h.toFixed(2);
 
   if (percentChange === "0.00") {
@@ -49,7 +55,9 @@ const getPercentChangeDisplay = (coin) => {
   }
 
   return (
-    <small className={getPercentChangeClass(coin)}>({percentChange}%)</small>
+    <small className={getPercentChangeClass(rawChange)}>
+      ({percentChange}%)
+    </small>
   );
 };
 
@@ -60,8 +68,6 @@ const getCurrentPrice = (coin) => {
   });
 };
 
-const getPercentChangeClass = (coin) => {
-  return coin.price_change_percentage_24h.toFixed(2) < 0.0
-    ? "text-danger"
-    : "text-success";
+const getPercentChangeClass = (rawChange) => {
+  return rawChange < 0 ? "text-danger" : "text-success";
 };
