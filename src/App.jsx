@@ -48,11 +48,12 @@ function App() {
       }
       setError(error instanceof Error ? error.message : String(error));
     } finally {
-      setLoading(false);
-      
+    } finally {
       if (abortControllerRef.current === controller) {
+        setLoading(false);
         abortControllerRef.current = null;
       }
+    }
     }
   }, [limit, sortBy]);
 
