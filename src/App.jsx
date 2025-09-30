@@ -15,15 +15,25 @@ function App() {
   const [autoRefresh, setAutoRefresh] = useState(false);
   const intervalRef = useRef(null);
 
+  const abortControllerRef = useRef(null);
+
   const fetchCoins = useCallback(async () => {
-    const API_URL = `${import.meta.env.VITE_API_BASE_URL}?vs_currency=usd&order=${sortBy}&per_page=${limit}&page=1&sparkline=false&x_cg_demo_api_key=${import.meta.env.VITE_API_KEY}`;
-    const abortController = new AbortController();
+    const API_URL =
+      `${import.meta.env.VITE_API_BASE_URL}` +
+      `?vs_currency=usd&order=${sortBy}` +
+      `&per_page=${limit}&page=1&sparkline=false` +
+      `&x_cg_demo_api_key=${import.meta.env.VITE_API_KEY}`;
+
+    abortControllerRef.current?.abort();
+
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
 
     setLoading(true);
     setError(null);
-    try {
-      const res = await fetch(API_URL, { signal: abortController.signal });
 
+    try {
+      const res = await fetch(API_URL, { signal: controller.signal });
       if (!res.ok) {
         throw new Error(
           `Failed to fetch data: ${res.status} ${res.statusText}`
@@ -32,80 +42,46 @@ function App() {
       const data = await res.json();
       setCoins(data);
     } catch (error) {
-      if (error.name === "AbortError") {
+      if (error?.name === "AbortError") {
         console.error("Fetch aborted");
         return;
       }
       setError(error instanceof Error ? error.message : String(error));
     } finally {
       setLoading(false);
+      
+      if (abortControllerRef.current === controller) {
+        abortControllerRef.current = null;
+      }
     }
-
-    return abortController;
   }, [limit, sortBy]);
 
   useEffect(() => {
     fetchCoins();
-
-  // state & refs
-  const [autoRefresh, setAutoRefresh] = useState(false);
-  const intervalRef = useRef(null);
- const abortControllerRef = useRef(null);
-
-  useEffect(() => {
-   // abort any prior request before starting a new one
-   abortControllerRef.current?.abort();
-   const controller = new AbortController();
-   abortControllerRef.current = controller;
-
-    // fetch logic
-    const fetchCoins = async () => {
-      try {
-        setLoading(true);
-       const res = await fetch(API_URL, { signal: controller.signal });
-        const data = await res.json();
-        setCoins(data);
-        setError(null);
-      } catch (error) {
-       if (error?.name === "AbortError") {
-          console.error("Fetch aborted");
-          return;
-        }
-        setError(error instanceof Error ? error.message : String(error));
-      } finally {
-        setLoading(false);
-       // clear only if this is still the active controller
-       if (abortControllerRef.current === controller) {
-         abortControllerRef.current = null;
-       }
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+        abortControllerRef.current = null;
       }
     };
-
-    fetchCoins();
-   // cleanup on unmount or deps change
-   return () => {
-     if (abortControllerRef.current) {
-       abortControllerRef.current.abort();
-       abortControllerRef.current = null;
-     }
-   };
-  }, [limit, sortBy]);
+  }, [fetchCoins]);
 
   useEffect(() => {
     if (autoRefresh) {
       intervalRef.current = setInterval(() => {
         fetchCoins();
-      }, 30000); // 30 seconds
+      }, 30000);
+    } else if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
     }
-
-    // Cleanup on unmount
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
       }
     };
-  }, [autoRefresh]);
+  }, [autoRefresh, fetchCoins]);
 
   return (
     <Routes>
