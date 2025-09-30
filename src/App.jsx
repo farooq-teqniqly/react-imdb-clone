@@ -47,11 +47,48 @@ function App() {
   useEffect(() => {
     fetchCoins();
 
-    return () => {
-      if (abortController) {
-        abortController.abort();
+  // state & refs
+  const [autoRefresh, setAutoRefresh] = useState(false);
+  const intervalRef = useRef(null);
+ const abortControllerRef = useRef(null);
+
+  useEffect(() => {
+   // abort any prior request before starting a new one
+   abortControllerRef.current?.abort();
+   const controller = new AbortController();
+   abortControllerRef.current = controller;
+
+    // fetch logic
+    const fetchCoins = async () => {
+      try {
+        setLoading(true);
+       const res = await fetch(API_URL, { signal: controller.signal });
+        const data = await res.json();
+        setCoins(data);
+        setError(null);
+      } catch (error) {
+       if (error?.name === "AbortError") {
+          console.error("Fetch aborted");
+          return;
+        }
+        setError(error instanceof Error ? error.message : String(error));
+      } finally {
+        setLoading(false);
+       // clear only if this is still the active controller
+       if (abortControllerRef.current === controller) {
+         abortControllerRef.current = null;
+       }
       }
     };
+
+    fetchCoins();
+   // cleanup on unmount or deps change
+   return () => {
+     if (abortControllerRef.current) {
+       abortControllerRef.current.abort();
+       abortControllerRef.current = null;
+     }
+   };
   }, [limit, sortBy]);
 
   useEffect(() => {
