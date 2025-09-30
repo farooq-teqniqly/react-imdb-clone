@@ -1,6 +1,6 @@
 // Lazy load non-critical components to improve initial bundle size
 import { lazy, Suspense } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { Col, Container, Row, Form } from "react-bootstrap";
 
 const LimitSelector = lazy(() =>
@@ -54,10 +54,13 @@ export const HomePage = ({
           return a.market_cap - b.market_cap;
 
         case "id_desc":
-          return b.id - a.id;
+          return b.id.localeCompare(a.id);
 
         case "id_asc":
-          return a.id - b.id;
+          return a.id.localeCompare(b.id);
+
+        default:
+          return 0;
       }
     });
 

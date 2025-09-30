@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { Card, Image } from "react-bootstrap";
 
 export const CoinCard = ({ coin }) => {

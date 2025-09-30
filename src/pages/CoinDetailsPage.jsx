@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 
 export const CoinDetailsPage = () => {
   const { id } = useParams();
@@ -9,13 +9,14 @@ export const CoinDetailsPage = () => {
 
   useEffect(() => {
     const API_URL = `${import.meta.env.VITE_API_COIN_DETAILS_URL}/${id}`;
+    const abortController = new AbortController();
 
     const fetchCoin = async () => {
       setLoading(true);
       setError(null);
 
       try {
-        const res = await fetch(API_URL);
+        const res = await fetch(API_URL, { signal: abortController.signal });
 
         if (!res.ok) {
           throw new Error(
@@ -32,6 +33,10 @@ export const CoinDetailsPage = () => {
     };
 
     fetchCoin();
+
+    return () => {
+      abortController.abort();
+    };
   }, [id]);
 
   return (
@@ -41,10 +46,16 @@ export const CoinDetailsPage = () => {
       {loading && <p>Loading...</p>}
       {error && <div className="text-danger">{error}</div>}
 
-      {!loading && !error && (
+      {!loading && !error && coin && (
         <>
-          <img src={coin.image.large} alt={coin.name} />
-          <p>{coin.description.en.split(".")[0] + "."}</p>
+          <img
+            src={coin.image?.large}
+            alt={coin.name}
+            onError={(e) => (e.target.style.display = "none")}
+          />
+          <p>
+            {coin.description?.en?.split(".")[0] || "No description available"}.
+          </p>
         </>
       )}
     </>
