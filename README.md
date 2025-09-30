@@ -112,11 +112,19 @@ Choose a globally unique name for your Static Web App (e.g., `my-imdb-clone-1234
 
 Set this to the CoinGecko API base URL:
 
-```
+```text
 https://api.coingecko.com/api/v3/coins/markets
 ```
 
-#### 5. VITE_API_KEY
+#### 5. VITE_API_COIN_DETAILS_URL
+
+Set this to the CoinGecko API coin details URL:
+
+```text
+https://api.coingecko.com/api/v3/coins
+```
+
+#### 6. VITE_API_KEY
 
 Set this to your CoinGecko API key. Get your API key from:
 
