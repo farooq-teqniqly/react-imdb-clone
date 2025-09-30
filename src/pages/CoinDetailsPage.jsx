@@ -26,9 +26,14 @@ export const CoinDetailsPage = () => {
         const data = await res.json();
         setCoin(data);
       } catch (error) {
+        if (abortController.signal.aborted) {
+          return;
+        }
         setError(error instanceof Error ? error.message : String(error));
       } finally {
-        setLoading(false);
+        if (!abortController.signal.aborted) {
+          setLoading(false);
+        }
       }
     };
 
