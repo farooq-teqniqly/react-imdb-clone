@@ -141,8 +141,9 @@ The deployment workflow runs automatically on:
 This project requires environment variables for the CoinGecko API. Create a `.env` file in the root directory:
 
 ```bash
-VITE_API_BASE_URL=https://api.coingecko.com/api/v3/coins/markets
-VITE_API_KEY=your-coingecko-api-key
+VITE_API_BASE_URL="https://api.coingecko.com/api/v3/coins/markets"
+VITE_API_COIN_DETAILS_URL="https://api.coingecko.com/api/v3/coins/"
+VITE_API_KEY="Your Coin Gecko API Key"
 ```
 
 **Getting a CoinGecko API Key:**

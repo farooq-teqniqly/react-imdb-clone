@@ -38,6 +38,43 @@ export const CoinDetailsPage = () => {
     ? getDescriptionSnippet(coin.description?.en)
     : null;
 
+  useEffect(() => {
+    const API_URL = `${import.meta.env.VITE_API_COIN_DETAILS_URL}/${id}`;
+    const abortController = new AbortController();
+
+    const fetchCoin = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const res = await fetch(API_URL, { signal: abortController.signal });
+
+        if (!res.ok) {
+          throw new Error(
+            `Failed to fetch data: ${res.status} ${res.statusText}`
+          );
+        }
+        const data = await res.json();
+        setCoin(data);
+      } catch (error) {
+        if (abortController.signal.aborted) {
+          return;
+        }
+        setError(error instanceof Error ? error.message : String(error));
+      } finally {
+        if (!abortController.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchCoin();
+
+    return () => {
+      abortController.abort();
+    };
+  }, [id]);
+
   return !loading && !error && coin ? (
     <>
       <img
